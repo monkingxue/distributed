@@ -16,17 +16,16 @@ get_time_diff(){
 	p2=`tail -1 $1`
 	init=`date -d "${p1:0:8}" +%s`
 	end=`date -d "${p2:0:8}" +%s`
-	return $((init-end))
+	return $((end-init))
 }
  
 read_file(){
 	line_num=`sed -n '$=' $1`
 	get_time_diff $1
-	time_diff=`date -d "$?" +%H:%M:%S`
+	time_diff=`date -d @"$(($?+57600))" +%T`
 	load_data=`awk -F ',' '$5 != 0.00' $1 | wc -l`
 	char_num=`awk '!(NR%2)' $1 | wc -m`
 }
 
 read_file $1
-
 printf "$line_num\n$time_diff\n$load_data\n$char_num\n" > $log_file_name

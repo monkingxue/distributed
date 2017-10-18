@@ -10,5 +10,5 @@ times=100
 for t in $(seq 1 $times)
 do
 	uptime >> $log_file_name
-	sleep 1
+	sleep 10
 done
